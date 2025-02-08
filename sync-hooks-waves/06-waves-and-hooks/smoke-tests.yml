@@ -2,10 +2,10 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   namespace: example06
-  generateName: smoke-tests-
+  name: smoke-tests-job
   labels:
-    codefresh.io/cert: smoke-job 
-    annotations:
+    codefresh.io/cert: smoke-job
+  annotations:
     argocd.argoproj.io/hook: PostSync
     argocd.argoproj.io/sync-wave: "11"
 spec:
@@ -18,4 +18,4 @@ spec:
           - "sleep"
           - "3"
       restartPolicy: Never
-  backoffLimit: 2    
+  backoffLimit: 2
