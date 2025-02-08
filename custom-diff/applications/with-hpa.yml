@@ -17,12 +17,15 @@ spec:
     server: https://kubernetes.default.svc
     namespace: example01
 
-  # Sync policy
   syncPolicy:
     syncOptions:
       - CreateNamespace=true 
-    ignoreDifferences:  # This must be inside syncPolicy
-      - group: apps
+    ignoreDifferences:
+      - group: apps  # Correct API group for Deployments
         kind: Deployment
+        jsonPointers:
+          - /spec/replicas  # Ensure ArgoCD ignores this field
+      - group: autoscaling  # Ensure HPA changes do not trigger sync issues
+        kind: HorizontalPodAutoscaler
         jsonPointers:
           - /spec/replicas
